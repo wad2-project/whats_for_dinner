@@ -1,6 +1,14 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
+    <style>
+        #map {
+            width: 400px;
+            height: 300px;
+            background-color: grey;
+        }
+    </style>
+
     <div>
         <strong> Your Dinner </strong> <br />
         {% if food %}
@@ -13,13 +21,24 @@
                 {{restaurant.name}} <br />
                 <img src="{{MEDIA_URL}}{{restaurant.image}}" alt="restaurant logo" /> <br />
                 {{restaurant.address}} <br />
+                <div id="map"></div>
+                <script>
+            function initMap() {
+                var marker = {lat: {{restaurant.latitude}}, lng: {{restaurant.longitude}}};
+                var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 17, center: marker});
+                var marker = new google.maps.Marker({position: marker, map: map});
+            }
+                </script>
+                <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-9Fdrh8xBrV9gu-aMQ7wHmBYtjt0YWh0&callback=initMap">
+                </script>
             {% endif %}
         {% else %}
             Sorry, no result based on your location and preferences.
         {% endif %}
 
     </div>
-    <div>
-        <a href="{% url 'index' %}">Home</a><br />
-    </div>
+
+
 {% endblock %}
