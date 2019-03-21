@@ -20,12 +20,7 @@ def about(request):
 def result(request):
 	if request.method == 'POST':
 		try:
-			gmaps = googlemaps.Client(key='AIzaSyA-9Fdrh8xBrV9gu-aMQ7wHmBYtjt0YWh0')
-			location = gmaps.geocode(request.POST.get('postcode')+', UK')[0]['geometry']['location']
-			lat_range = (location['lat']-0.0045, location['lat']+0.0045,)
-			lng_range = (location['lng']-0.0080, location['lng']+0.0080,)
-			restaurants = Restaurant.objects.filter(latitude__gte=lat_range[0], latitude__lte=lat_range[1],
-			                                        longitude__gte=lng_range[0], longitude__lte=lng_range[1])
+			restaurants = get_restaurants(request.POST.get('postcode'))
 			if request.POST.get('range') == 'favourites':
 				favourites = UserFavourites.objects.filter(user=request.user)
 				foods = list(favourites)[0].favourites.all()
@@ -33,8 +28,8 @@ def result(request):
 					foods.union(favourite.favourites.all())
 			else:
 				foods = Food.objects.all()
-
 			foods = foods.filter(restaurant__in=restaurants)
+
 			if request.POST.get('price_low') != 'low':
 				foods = foods.exclude(price__lt=6)
 			if request.POST.get('price_mid') != 'mid':
@@ -108,7 +103,21 @@ def favourites(request):
 
 @login_required
 def modify(request):
+	if request.method == 'POST':
+		context_dict = {'postcode': request.POST.get('postcode')}
+		try:
+			restaurants = get_restaurants(request.POST.get('postcode'))
+			foods = Food.objects.filter(restaurant__in=restaurants)
+			favourites = UserFavourites.objects.filter(user=request.user)
+			favourite_foods = list(favourites)[0].favourites.all()
+			for favourite in favourites:
+				favourite_foods.union(favourite.favourites.all())
+			context_dict['foods'] = foods
+			context_dict['favourites'] = favourite_foods
 
+		except Exception:
+			print('Error in modify request')
+		return render(request, 'whats_for_dinner/modify.html', context_dict)
 	return render(request, 'whats_for_dinner/modify.html')
 
 
@@ -118,3 +127,15 @@ def log_out(request):
 	return HttpResponseRedirect(reverse('index'))
 
 
+def get_restaurants(postcode):
+	try:
+		gmaps = googlemaps.Client(key='AIzaSyA-9Fdrh8xBrV9gu-aMQ7wHmBYtjt0YWh0')
+		location = gmaps.geocode(postcode + ', UK')[0]['geometry']['location']
+		lat_range = (location['lat'] - 0.0045, location['lat'] + 0.0045,)
+		lng_range = (location['lng'] - 0.0080, location['lng'] + 0.0080,)
+		restaurants = Restaurant.objects.filter(latitude__gte=lat_range[0], latitude__lte=lat_range[1],
+		                                        longitude__gte=lng_range[0], longitude__lte=lng_range[1])
+	except:
+		print('Google Maps Geocoding error')
+		return None
+	return restaurants

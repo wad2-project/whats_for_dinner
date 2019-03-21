@@ -1,5 +1,41 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
-    modify
+
+    <div>
+        <form id="modify_by_postcode_form" method="post" action="{% url 'modify' %}">
+            {% csrf_token %}
+            Postcode:<br>
+            {% if postcode %}
+                <input type="text" name="postcode" value="{{postcode}}" required>
+            {% else %}
+                <input type="text" name="postcode" required>
+            {% endif %}
+            <input type="submit" name="submit" value="Food nearby"><br>
+        </form>
+    </div>
+    {% if foods %}
+    <div>
+        <form id="modify_foods_form" method="post" action="{% url 'modify' %}">
+            {% csrf_token %}
+            <ul>
+            {% for food in foods %}
+                <li>
+                {% if food in favourites %}
+                    <input type="checkbox" name={{food}} value={{food}} checked>
+                {% else %}
+                    <input type="checkbox" name={{food}} value={{food}}>
+                {% endif %}
+                {{food.restaurant}}: {{food.name}} £{{food.price}}
+                {% if food.vegetarian %}
+                    vegetarian
+                {% endif %}<br>
+                </li>
+            {% endfor %}
+            </ul>
+            <input type="submit" name="submit" value="Update favourites"><br>
+        </form>
+    </div>
+    {% endif %}
+
 {% endblock %}
