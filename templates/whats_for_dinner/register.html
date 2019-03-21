@@ -1,0 +1,19 @@
+{% extends 'whats_for_dinner/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+    <h1>Register for What's for Dinner</h1>
+
+    {% if registered %}
+        <strong>Thank you for registering!</strong>
+        <a href="{% url 'login' %}">Log in</a><br />
+    {% else %}
+        <strong>Register now</strong><br />
+        <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        {{ user_form.as_p }}
+
+        <input type="submit" name="submit" value="Register" />
+        </form>
+    {% endif %}
+{% endblock %}

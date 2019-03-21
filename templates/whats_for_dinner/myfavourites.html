@@ -1,0 +1,33 @@
+{% extends 'whats_for_dinner/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+    <div>
+        {% if user.is_authenticated %}
+            <strong> My favourites </strong> <br />
+            <a href="{% url 'modify' %}">Modify my favourites</a> <br />
+            {% if foods %}
+                <ul>
+                {% for food in foods %}
+                    <li>
+                    {{food.restaurant}} <br />
+                        {{food.name}} £{{food.price}}
+                        {% if food.vegetarian %}
+                            vegetarian
+                        {% endif %}
+                        {% if food.description %}
+                            <br />{{food.description}}
+                        {% endif %}
+                        <br>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                You don't have favourites yet
+            {% endif %}
+        {% endif %}
+
+    </div>
+    <div>
+        <a href="{% url 'index' %}">Home</a><br />
+    </div>
+{% endblock %}

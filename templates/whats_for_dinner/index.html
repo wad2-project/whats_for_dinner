@@ -1,0 +1,41 @@
+{% extends 'whats_for_dinner/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+    <body>
+        <div>
+                <img src="{% static 'images/Whats-for-Dinner.jpg' %}" alt="Logo" />
+        </div>
+        <form id="result_form" method="post" action="{% url 'result' %}">
+            {% csrf_token %}
+            <div>
+                Postcode:<br>
+                <input type="text" name="postcode" required>
+            </div>
+            <div>
+                Price:<br>
+                <input type="checkbox" name="price_low" value="low" checked> £<br>
+                <input type="checkbox" name="price_mid" value="mid" checked> ££<br>
+                <input type="checkbox" name="price_high" value="high" checked> £££<br>
+            </div>
+            <div>
+                Diet:<br>
+                <input type="checkbox" name="vegetarian" value="vegetarian" checked> Vegetarian<br>
+                <input type="checkbox" name="non_vegetarian" value="non_vegetarian" checked> Non-vegetarian<br>
+            </div>
+
+            <div>
+                Range:<br>
+                <input type="radio" name="range" value="all" checked> All foods<br>
+                {% if user.is_authenticated %}
+                <input type="radio" name="range" value="favourites"> My favourites<br>
+                {% else %}
+                <input type="radio" name="range" value="favourites" disabled> My favourites<br>
+                {% endif %}
+            </div>
+
+            <div>
+                <input type="submit" name="submit" value="What's for dinner?"><br>
+            </div>
+        </form>
+    </body>
+{% endblock %}

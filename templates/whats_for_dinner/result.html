@@ -1,0 +1,25 @@
+{% extends 'whats_for_dinner/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+    <div>
+        <strong> Your Dinner </strong> <br />
+        {% if food %}
+            {{food.name}}  £{{food.price}}
+            {% if food.vegetarian %}
+                vegetarian
+            {% endif %}
+            <br />
+            {% if restaurant %}
+                {{restaurant.name}} <br />
+                <img src="{{MEDIA_URL}}{{restaurant.image}}" alt="restaurant logo" /> <br />
+                {{restaurant.address}} <br />
+            {% endif %}
+        {% else %}
+            Sorry, no result based on your location and preferences.
+        {% endif %}
+
+    </div>
+    <div>
+        <a href="{% url 'index' %}">Home</a><br />
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+*.pyc
+db.sqlite3
+__pycache__
+*.pyo
+whats_for_dinner/migrations/
+.idea/workspace.xml
+*~

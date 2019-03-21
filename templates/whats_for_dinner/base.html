@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load template_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>What's for Dinner</title>
+</head>
+<body>
+    <div>
+        <strong> What's for Dinner? </strong> <br />
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+            <a href="{% url 'favourites' %}">My favourites</a>
+            <a href="{% url 'logout' %}">Log out</a>
+        {% else %}
+            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'register' %}">Sign up</a>
+        {% endif %}
+    </div>
+    <div>
+        Hi
+        {% if user.is_authenticated %}
+            {{ user.username }}!
+        {% else %}
+            Guest
+        {% endif %}
+    </div>
+    {% block body_block %}
+    {% endblock %}
+</body>
+</html>
