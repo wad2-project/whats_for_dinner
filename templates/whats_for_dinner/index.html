@@ -13,7 +13,7 @@ input[type=text]{
   padding: 4px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  resize: initial;
+  resize: both;
 }
 
 .container {
@@ -21,9 +21,14 @@ input[type=text]{
   background-color: #f2f2f2;
   padding: 100px;
 }
+.col-0 {
+  float: left;
+  width: 60%;
+  margin-top: 2px;
+}
 .col-25 {
   float: left;
-  width: 40%;
+  width: 25%;
   margin-top: 6px;
 }
 
@@ -53,23 +58,23 @@ input[type=text]{
         <div class="container">
             <form id="result_form" method="post" action="{% url 'result' %}">
                 {% csrf_token %}
-                <div class = "col-25">
+                <div class = "col-0">
                     Postcode:<br>
-                    <input type="text" name="postcode" required>
+                    <input type="text" name="postcode" style="width: 100px" required>
                 </div>
-                <div>
+                <div class = "col-40">
                     Price:<br>
                     <input type="checkbox" name="price_low" value="low" checked> £<br>
                     <input type="checkbox" name="price_mid" value="mid" checked> ££<br>
                     <input type="checkbox" name="price_high" value="high" checked> £££<br>
                 </div>
-                <div>
+                <div class = "col-40">
                     Diet:<br>
                     <input type="checkbox" name="vegetarian" value="vegetarian" checked> Vegetarian<br>
                     <input type="checkbox" name="non_vegetarian" value="non_vegetarian" checked> Non-vegetarian<br>
                 </div>
 
-                <div>
+                <div class = "col-40">
                     Range:<br>
                     <input type="radio" name="range" value="all" checked> All foods<br>
                     {% if user.is_authenticated %}
