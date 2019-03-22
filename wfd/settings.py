@@ -25,9 +25,11 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = '7!myt_*k2goay2fjsenudz(3f_9i#4j9r7%=3fb3_unbgr%=yv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'http://tian.pythonanywhere.com',
+]
 
 
 # Application definition
@@ -129,7 +131,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [STATIC_DIR, ]
 MEDIA_ROOT = MEDIA_DIR
-
+STATIC_ROOT = STATIC_DIR
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 LOGIN_URL = '/whatsfordinner/login/'
