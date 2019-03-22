@@ -92,10 +92,8 @@ def log_in(request):
 
 @login_required
 def favourites(request):
-	favourites = UserFavourites.objects.filter(user=request.user)
-	foods = list(favourites)[0].favourites.all()
-	for favourite in favourites:
-		foods.union(favourite.favourites.all())
+	favourites = UserFavourites.objects.get_or_create(user=request.user)[0]
+	foods = favourites.favourites.all()
 	if foods:
 		return render(request, 'whats_for_dinner/myfavourites.html', {"foods": foods})
 	return render(request, 'whats_for_dinner/myfavourites.html')
