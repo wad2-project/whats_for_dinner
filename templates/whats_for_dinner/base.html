@@ -29,24 +29,24 @@
       <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'index'%}">Home</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'index'%}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'about'%}">About</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'about'%}">About</a>
         </li>
         {%if user.is_authenticated%}
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'favourites'%}">My Favourites</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'favourites'%}">My Favourites</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'logout'%}">Logout</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'logout'%}">Logout</a>
         </li>
         {%else%}
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'login'%}">Sign In</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'login'%}">Sign In</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{%url 'register'%}">Sign Up</a>
+          <a class="nav-link" data-target="#" data-toggle="pill" href="{%url 'register'%}">Sign Up</a>
         </li>
         {%endif%}
 
