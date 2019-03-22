@@ -92,8 +92,8 @@ def log_in(request):
 
 @login_required
 def favourites(request):
-	favourites = UserFavourites.objects.get_or_create(user=request.user)[0]
-	foods = favourites.favourites.all()
+	user_favourites = UserFavourites.objects.get_or_create(user=request.user)[0]
+	foods = user_favourites.favourites.all()
 	if foods:
 		return render(request, 'whats_for_dinner/myfavourites.html', {"foods": foods})
 	return render(request, 'whats_for_dinner/myfavourites.html')
@@ -106,10 +106,8 @@ def modify(request):
 		try:
 			restaurants = get_restaurants(request.POST.get('postcode'))
 			foods = Food.objects.filter(restaurant__in=restaurants)
-			favourites = UserFavourites.objects.filter(user=request.user)
-			favourite_foods = list(favourites)[0].favourites.all()
-			for favourite in favourites:
-				favourite_foods.union(favourite.favourites.all())
+			user_favourites = UserFavourites.objects.get(user=request.user)
+			favourite_foods = user_favourites.favourites.all()
 			context_dict['foods'] = foods
 			context_dict['favourites'] = favourite_foods
 
