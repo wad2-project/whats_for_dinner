@@ -1,7 +1,9 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
+<link rel = "stylesheet" type = "text/css" href = "{% static 'CSS/home.css' %}" />
 {% block body_block %}
 
+<br>
     <div>
         <form id="modify_by_postcode_form" method="post" action="{% url 'modify' %}">
             {% csrf_token %}
@@ -11,7 +13,9 @@
             {% else %}
                 <input type="text" name="postcode" required>
             {% endif %}
-            <input type="submit" name="submit" value="Food nearby"><br>
+            <button class="btn btn-primary btn-danger" type="submit" name="submit"
+            />Food nearby</button>
+            <br>
         </form>
     </div>
     {% if foods %}
@@ -33,7 +37,9 @@
                 </li>
             {% endfor %}
             </ul>
-            <input type="submit" name="submit" value="Update favourites"><br>
+            <button class="btn btn-primary btn-danger" type="submit" name="submit"
+            />Update favourites</button>
+            <br>
         </form>
     </div>
     {% endif %}

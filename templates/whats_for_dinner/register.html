@@ -1,19 +1,33 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
+<br>
     <h1>Register for What's for Dinner</h1>
 
     {% if registered %}
         <strong>Thank you for registering!</strong>
         <a href="{% url 'login' %}">Log in</a><br />
     {% else %}
-        <strong>Register now</strong><br />
         <form id="user_form" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
 
         {% csrf_token %}
-        {{ user_form.as_p }}
+        <div class="form-group" >
+        <label>Username</label>
+        <input type="text" name="username" id="id_username" class="form-control"  value=""
+		   placeholder="Username" required autofocus>
+        <label>Email address</label>
 
-        <input type="submit" name="submit" value="Register" />
+        <input type="text" name="username" id="id_email" class="form-control"  value=""
+		   size="30" placeholder="email address" required autofocus>
+
+        <label>Password</label>
+
+        <input type="password" name="password" id="id_password" class="form-control"  value=""
+		   placeholder="Password" required>
+        <br>
+        <button class="btn btn-lg btn-primary btn-danger" type="submit" name="submit"
+	        value="Register" />Register</button>
+        </div>
         </form>
     {% endif %}
 {% endblock %}

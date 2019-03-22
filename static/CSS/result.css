@@ -11,6 +11,11 @@ p{
     border-radius: 10px;
     background-color: #dc4b4b;
 }
+p1{
+    font-size:22px;
+    font-style:Bold;
+    text-align: center;
+}
 .parent{
     margin:30px;
 }

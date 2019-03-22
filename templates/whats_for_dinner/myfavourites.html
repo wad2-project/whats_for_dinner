@@ -1,9 +1,10 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
+<br>
     <div>
         {% if user.is_authenticated %}
-            <strong> My favourites </strong> <br />
+            <strong style = "font-size: 20px"> My favourites </strong> <br />
             <a href="{% url 'modify' %}">Modify my favourites</a> <br />
             {% if foods %}
                 <ul>
@@ -27,7 +28,5 @@
         {% endif %}
 
     </div>
-    <div>
-        <a href="{% url 'index' %}">Home</a><br />
-    </div>
+
 {% endblock %}

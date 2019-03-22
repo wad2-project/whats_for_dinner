@@ -1,13 +1,35 @@
 {% extends 'whats_for_dinner/base.html' %}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {% load staticfiles %}
+<br>
 {% block body_block %}
+<body>
     {% if message %}
-        {{message}}
+        <br>
+        <div class="alert alert-danger" role="alert">
+          {{message}}
+        </div>
     {% endif %}
+    <link href="http://v4-alpha.getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+    <div class="jumbotron">
+	    <h1 class="display-3">Login</h1>
+    </div>
+    <div class="container">
     <form id="login_form" method="post" action="{% url 'login' %}">
+
         {% csrf_token %}
-        Username: <input type="text" name="username" value="" size="50" /> <br />
-        Password: <input type="password" name="password" value="" size="50" /> <br />
-        <input type="submit" value="Log in" />
+        <label for="name">Username</label>
+        <input type="text" name="username" id="id_username" class="form-control"  value=""
+		   placeholder="Username" required autofocus>
+
+        <label for="pass">Password</label>
+
+        <input type="password" name="password" id="id_password" class="form-control"  value=""
+		   placeholder="Password" required>
+        <br>
+        <button class="btn btn-lg btn-primary btn-danger" type="submit"
+	        value="Submit" />Sign in</button>
     </form>
+</div>
+</body>
 {% endblock %}
