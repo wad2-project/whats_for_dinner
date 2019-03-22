@@ -1,27 +1,26 @@
 {% extends 'whats_for_dinner/base.html' %}
 {% load staticfiles %}
 {% block body_block %}
-    <style>
-        #map {
-            width: 400px;
-            height: 300px;
-            background-color: grey;
-        }
-    </style>
+<link rel = "stylesheet" type = "text/css" href = "{% static 'CSS/result.css' %}" />
 
     <div>
-        <strong> Your Dinner </strong> <br />
+        <br>
+        <p style = "font-size:30px;font-style:Bold;color: white "align = "center";>Your Dinner! </p>
+        <div class = "style">
         {% if food %}
-            {{food.name}}  £{{food.price}}
+                {{food.name}}  £{{food.price}}
             {% if food.vegetarian %}
                 vegetarian
             {% endif %}
             <br />
             {% if restaurant %}
-                {{restaurant.name}} <br />
-                <img src="{{MEDIA_URL}}{{restaurant.image}}" alt="restaurant logo" /> <br />
+            <div>
+                <div style="width:100%;text-align:center;" class = "parent">
+                <img src="{{MEDIA_URL}}{{restaurant.image}}" alt="restaurant logo" class="parent"/> <br />
+            </div>
+                {{restaurant.name}} </div><br />
                 {{restaurant.address}} <br />
-                <div id="map"></div>
+                <div id="map" class = "center"></div>
                 <script>
             function initMap() {
                 var marker = {lat: {{restaurant.latitude}}, lng: {{restaurant.longitude}}};
@@ -39,6 +38,6 @@
         {% endif %}
 
     </div>
-
+    </div>
 
 {% endblock %}
