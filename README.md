@@ -7,5 +7,5 @@ Authors:
 - Yash Chakrabarti (2353911C)
 - Tianyu Cui (2397867C)
 
-IMPORTANT - First half of the commits are in the adjoining repository below.
+IMPORTANT - First half of the commits are in the adjoining repository here->
 https://github.com/wad2-project/WhatsForDinner.git
