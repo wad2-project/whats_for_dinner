@@ -21,6 +21,7 @@ def result(request):
 	if request.method == 'POST':
 		try:
 			restaurants = get_restaurants(request.POST.get('postcode'))
+			# Get food from favourites or all foods
 			if request.POST.get('range') == 'favourites':
 				favourites = UserFavourites.objects.filter(user=request.user)
 				foods = list(favourites)[0].favourites.all()
@@ -28,8 +29,8 @@ def result(request):
 					foods.union(favourite.favourites.all())
 			else:
 				foods = Food.objects.all()
-			foods = foods.filter(restaurant__in=restaurants)
-
+			foods = foods.filter(restaurant__in=restaurants) # Filter foods by nearby restaurants
+			# Further filter foods by price and diet
 			if request.POST.get('price_low') != 'low':
 				foods = foods.exclude(price__lt=6)
 			if request.POST.get('price_mid') != 'mid':
@@ -40,20 +41,20 @@ def result(request):
 				foods = foods.exclude(vegetarian=True)
 			if request.POST.get('non_vegetarian') != 'non_vegetarian':
 				foods = foods.exclude(vegetarian=False)
-
+			# Return a random food that meets all requirements
 			context_dict = {"food": random.choice(foods)}
 			context_dict["restaurant"] = context_dict["food"].restaurant
-			print(context_dict["restaurant"].latitude, context_dict["restaurant"].longitude)
 			return render(request, 'whats_for_dinner/result.html', context_dict)
-		except Exception:
+		except:
+			# No food selected
 			return render(request, 'whats_for_dinner/result.html')
-
+	# Return to home page
 	return render(request, 'whats_for_dinner/index.html')
 
 
 def register(request):
 	registered = False
-
+	# Register using form
 	if request.method == 'POST':
 		user_form = UserForm(data=request.POST)
 		if user_form.is_valid():
@@ -65,17 +66,14 @@ def register(request):
 			print(user_form.errors)
 	else:
 		user_form = UserForm()
-
 	return render(request, 'whats_for_dinner/register.html', {'user_form': user_form, 'registered': registered})
 
 
 def log_in(request):
-
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		user = authenticate(username=username, password=password)
-
 		if user:
 			if user.is_active:
 				login(request, user)
@@ -83,17 +81,17 @@ def log_in(request):
 			else:
 				return HttpResponse("Your account is disabled.")
 		else:
-			print("Invalid login details: {0}, {1}".format(username, password))
 			return render(request, 'whats_for_dinner/login.html', {'message': 'Invalid login details. Please try again.'})
-
 	else:
 		return render(request, 'whats_for_dinner/login.html', {})
 
 
 @login_required
 def favourites(request):
+	# Get or create user favorites
 	user_favourites = UserFavourites.objects.get_or_create(user=request.user)[0]
 	foods = user_favourites.favourites.all()
+	# Return favourite foods if exist
 	if foods:
 		return render(request, 'whats_for_dinner/myfavourites.html', {"foods": foods})
 	return render(request, 'whats_for_dinner/myfavourites.html')
@@ -103,6 +101,7 @@ def favourites(request):
 def modify(request):
 	if request.method == 'POST':
 		context_dict = {'postcode': request.POST.get('postcode')}
+		# Get and return all nearby foods and nearby favourites
 		try:
 			restaurants = get_restaurants(request.POST.get('postcode'))
 			foods = Food.objects.filter(restaurant__in=restaurants)
@@ -110,8 +109,7 @@ def modify(request):
 			favourite_foods = user_favourites.favourites.all()
 			context_dict['foods'] = foods
 			context_dict['favourites'] = favourite_foods
-
-		except Exception:
+		except:
 			print('Error in modify request')
 		return render(request, 'whats_for_dinner/modify.html', context_dict)
 	return render(request, 'whats_for_dinner/modify.html')
@@ -123,6 +121,7 @@ def log_out(request):
 	return HttpResponseRedirect(reverse('index'))
 
 
+# Helper function to get restaurants near a postcode using Google Maps
 def get_restaurants(postcode):
 	try:
 		gmaps = googlemaps.Client(key='AIzaSyA-9Fdrh8xBrV9gu-aMQ7wHmBYtjt0YWh0')

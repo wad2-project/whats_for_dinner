@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from whats_for_dinner.models import *
 
 
+# Form for user registration
 class UserForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
 

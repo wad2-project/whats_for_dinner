@@ -9,6 +9,7 @@ from whats_for_dinner.models import *
 
 def populate():
 
+	# Food items for La Vita Spuntini
 	foods_38135 = [
 		{"name": 'Margherita 5"', "price": 4.45, "vegetarian": True,
 			"description": "A thin base topped with tomato & mozzarella cheese"},
@@ -38,6 +39,7 @@ def populate():
 			"description": "World famous Ramsey of Carluke pork belly chargrilled & oven roasted, drizzled with balsamic vinegar"},
 	]
 
+	# Food items for Okome
 	foods_73335 = [
 		{"name": 'Chicken Katsu Curry Bowl', "price": 7.80, "vegetarian": False,
 			"description": ""},
@@ -67,6 +69,7 @@ def populate():
 			"description": ""},
 	]
 
+	# Food items for Masala Twist Indian Restaurant
 	foods_15990 = [
 		{"name": 'Puri Chana (Chickpeas)', "price": 4.25, "vegetarian": True,
 			"description": "Light thin deep fried chapati"},
@@ -106,6 +109,7 @@ def populate():
 			"description": "A traditional dish from Hyderabad, simmered in basmati rice with a host of aromatic spices, cardamom, saffron, fenugreek & garnished with coriander"},
 	]
 
+	# Food items for Chow
 	foods_72633 = [
 		{"name": 'Peking Ribs', "price": 5.90, "vegetarian": False,
 			"description": ""},
@@ -137,6 +141,7 @@ def populate():
 			"description": ""},
 	]
 
+	# Four sample restaurants
 	restaurants = {
 		"La Vita Spuntini": {"id": "38135", "address": "199 Byres Road, Glasgow, G12 8TN", "food": foods_38135},
 		"Okome": {"id": "73335", "address": "161 Byres Road, Glasgow, G12 8TS", "food": foods_73335},
@@ -144,6 +149,7 @@ def populate():
 		"Chow": {"id": "72633", "address": "98 Byres Road, Glasgow, G12 8TB", "food": foods_72633},
 	}
 
+	# Google Maps used to geocode restaurants
 	gmaps = googlemaps.Client(key='AIzaSyA-9Fdrh8xBrV9gu-aMQ7wHmBYtjt0YWh0')
 
 	for restaurant, restaurant_data in restaurants.items():
